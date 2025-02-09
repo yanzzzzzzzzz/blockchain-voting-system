@@ -24,6 +24,16 @@ contract VotingSystem {
     uint256 endTime;
   }
 
+  struct VoteView {
+    uint256 id;
+    string title;
+    VoteOption[] options;
+    uint256 createTime;
+    uint256 startTime;
+    uint256 endTime;
+    bool exists;
+  }
+
   address public owner;
   uint256 public voteCount;
   mapping(uint256 => Vote) public votes;
@@ -139,19 +149,18 @@ contract VotingSystem {
   }
 
   // 獲取某個投票的所有選項及票數
-  function getVoteOptions(
-    uint256 _voteId
-  ) public view returns (string[] memory, uint256[] memory) {
+  function getVote(uint256 _voteId) public view returns (VoteView memory) {
     require(votes[_voteId].exists, 'The vote does not exist');
 
-    uint256 numOptions = votes[_voteId].options.length;
-    string[] memory optionStrings = new string[](numOptions);
-    uint256[] memory results = new uint256[](numOptions);
-
-    for (uint256 i = 0; i < numOptions; i++) {
-      optionStrings[i] = votes[_voteId].options[i].option;
-      results[i] = votes[_voteId].options[i].votes;
-    }
-    return (optionStrings, results);
+    return
+      VoteView({
+        id: _voteId,
+        title: votes[_voteId].title,
+        options: votes[_voteId].options,
+        createTime: votes[_voteId].createTime,
+        startTime: votes[_voteId].startTime,
+        endTime: votes[_voteId].endTime,
+        exists: votes[_voteId].exists
+      });
   }
 }
