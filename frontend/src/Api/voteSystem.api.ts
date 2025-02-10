@@ -1,5 +1,5 @@
 import { getVotingSystemContract } from "../utils/web3.ts";
-import type { VoteInfo } from "../model/voteSystem.ts";
+import type { VoteInfo, VoteView } from "../model/voteSystem.ts";
 import { convertBigIntTimestampToISO } from "../utils/time.ts";
 export async function getAllVotes() {
   const contract = getVotingSystemContract();
@@ -23,7 +23,26 @@ export async function getVote(id: number) {
 
   const contract = getVotingSystemContract();
   if (!contract) return;
-  console.log("run contract");
 
   const result = await contract.getVote(id);
+  const vote: VoteView = {
+    id: Number(result.id),
+    title: result.title,
+    options: result.options.map((opt: any) => ({
+      option: opt.option,
+      votes: Number(opt.votes),
+    })),
+    createTime: convertBigIntTimestampToISO(result.createTime),
+    startTime: convertBigIntTimestampToISO(result.startTime),
+    endTime: convertBigIntTimestampToISO(result.endTime),
+    exists: result.exists,
+  };
+  return vote;
+}
+
+export async function vote(id:number, voteOptionIndex:number) {
+  const contract = getVotingSystemContract();
+  if (!contract) return;
+  const result = await contract.vote(id, voteOptionIndex);
+  console.log('result',result);
 }
