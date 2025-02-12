@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import VotePage from '../views/votePage.vue'
-import Home from '../views/Home.vue'
+import VotePage from '@/views/votePage.vue'
+import Home from '@/views/Home.vue'
 const routes = [
   {
     path: '',

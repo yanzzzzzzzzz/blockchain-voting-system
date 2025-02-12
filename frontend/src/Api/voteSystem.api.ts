@@ -1,6 +1,6 @@
-import { getVotingSystemContract } from '../utils/web3.ts'
-import type { VoteInfo, VoteView } from '../model/voteSystem.ts'
-import { convertBigIntTimestampToISO } from '../utils/time.ts'
+import { getVotingSystemContract } from '@/utils/web3.ts'
+import type { VoteInfo, VoteView } from '@/models/voteSystem.ts'
+import { convertBigIntTimestampToISO } from '@/utils/time.ts'
 export async function getAllVotes() {
   const contract = getVotingSystemContract()
   if (!contract) return

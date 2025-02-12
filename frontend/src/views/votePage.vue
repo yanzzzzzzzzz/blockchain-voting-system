@@ -14,8 +14,8 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
-import { getVote, vote } from '../Api/voteSystem.api.ts'
-import type { VoteView } from '../model/voteSystem.ts'
+import { getVote, vote } from '@/Api/voteSystem.api.ts'
+import type { VoteView } from '@/models/voteSystem.ts'
 import { Button } from 'primevue'
 
 const route = useRoute()

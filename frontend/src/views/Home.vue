@@ -18,13 +18,13 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { setupWeb3, getVotingContract } from '../utils/web3.ts'
-import CreateVoteDialog from '../components/CreateVoteDialog.vue'
+import { setupWeb3, getVotingContract } from '@/utils/web3.ts'
+import CreateVoteDialog from '@/components/CreateVoteDialog.vue'
 
-import { getAllVotes } from '../Api/voteSystem.api.ts'
+import { getAllVotes } from '@/Api/voteSystem.api.ts'
 import { Button } from 'primevue'
-import VoteCard from '../components/VoteCard.vue'
-import type { VoteInfo } from '../model/voteSystem.ts'
+import VoteCard from '@/components/VoteCard.vue'
+import type { VoteInfo } from '@/models/voteSystem.ts'
 interface Candidate {
   index: number
   name: string

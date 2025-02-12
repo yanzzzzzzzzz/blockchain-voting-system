@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
-import contractAddress from '../contracts/contract-address.json'
-import VotingABI from '../contracts/Voting.json'
-import VotingSystemABI from '../contracts/VotingSystem.json'
+import contractAddress from '@/contracts/contract-address.json'
+import VotingABI from '@/contracts/Voting.json'
+import VotingSystemABI from '@/contracts/VotingSystem.json'
 
 declare global {
   interface Window {
