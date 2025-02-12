@@ -10,6 +10,10 @@
   <Button @click="vote" :disabled="selectedCandidate === null || loading">
     投票
   </Button>
+  <Button label="Create Vote" icon="pi pi-plus" @click="showDialog = true" />
+  <div>
+    <CreateVoteDialog v-model="showDialog" />
+  </div>
   <div v-if="voteData">
     <VoteCard v-for="vote in voteData" :key="vote.id" :vote="vote" />
   </div>
@@ -17,20 +21,23 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { setupWeb3, getVotingContract } from "../utils/web3.ts";
+import CreateVoteDialog from "../components/CreateVoteDialog.vue";
 
+import { getAllVotes } from "../Api/voteSystem.api.ts";
+import { Button } from "primevue";
+import VoteCard from "../components/VoteCard.vue";
+import type { VoteInfo } from "../model/voteSystem.ts";
 interface Candidate {
   index: number;
   name: string;
   voteCount: string;
 }
-import { getAllVotes } from "../Api/voteSystem.api.ts";
-import { Button } from "primevue";
-import VoteCard from "../components/VoteCard.vue";
-import type { VoteInfo } from "../model/voteSystem.ts";
 const candidates = ref<Candidate[]>([]);
 const selectedCandidate = ref<number | null>(null);
 const loading = ref<boolean>(false);
 const voteData = ref<VoteInfo[] | undefined>(undefined);
+const showDialog = ref<boolean>(false);
+
 async function loadCandidates() {
   const contract = getVotingContract();
   if (!contract) return;
