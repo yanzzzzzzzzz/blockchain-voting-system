@@ -17,34 +17,34 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import type { VoteInfo } from "../model/voteSystem.ts";
-import { useRouter } from "vue-router";
-import Button from "primevue/button";
+import { computed } from 'vue'
+import type { VoteInfo } from '../model/voteSystem.ts'
+import { useRouter } from 'vue-router'
+import Button from 'primevue/button'
 
 // 定義 props
 const props = defineProps<{
-  vote: VoteInfo;
-}>();
+  vote: VoteInfo
+}>()
 
 // 使用 Vue Router 進行頁面跳轉
-const router = useRouter();
+const router = useRouter()
 
 // 計算開始和結束時間
 const formattedStartTime = computed(() => {
-  return new Date(props.vote.startTime).toLocaleString(); // 顯示當地時間
-});
+  return new Date(props.vote.startTime).toLocaleString() // 顯示當地時間
+})
 
 const formattedEndTime = computed(() => {
-  return new Date(props.vote.endTime).toLocaleString();
-});
+  return new Date(props.vote.endTime).toLocaleString()
+})
 
 // 跳轉到投票頁面
 function goToVote() {
   router.push({
-    name: "VotePage",
+    name: 'VotePage',
     params: { id: props.vote.id },
-  });
+  })
 }
 </script>
 

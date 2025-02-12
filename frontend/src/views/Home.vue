@@ -7,9 +7,7 @@
       <Button @click="selectedCandidate = candidate.index">選擇</Button>
     </li>
   </ul>
-  <Button @click="vote" :disabled="selectedCandidate === null || loading">
-    投票
-  </Button>
+  <Button @click="vote" :disabled="selectedCandidate === null || loading"> 投票 </Button>
   <Button label="Create Vote" icon="pi pi-plus" @click="showDialog = true" />
   <div>
     <CreateVoteDialog v-model="showDialog" />
@@ -19,61 +17,59 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { setupWeb3, getVotingContract } from "../utils/web3.ts";
-import CreateVoteDialog from "../components/CreateVoteDialog.vue";
+import { ref, onMounted } from 'vue'
+import { setupWeb3, getVotingContract } from '../utils/web3.ts'
+import CreateVoteDialog from '../components/CreateVoteDialog.vue'
 
-import { getAllVotes } from "../Api/voteSystem.api.ts";
-import { Button } from "primevue";
-import VoteCard from "../components/VoteCard.vue";
-import type { VoteInfo } from "../model/voteSystem.ts";
+import { getAllVotes } from '../Api/voteSystem.api.ts'
+import { Button } from 'primevue'
+import VoteCard from '../components/VoteCard.vue'
+import type { VoteInfo } from '../model/voteSystem.ts'
 interface Candidate {
-  index: number;
-  name: string;
-  voteCount: string;
+  index: number
+  name: string
+  voteCount: string
 }
-const candidates = ref<Candidate[]>([]);
-const selectedCandidate = ref<number | null>(null);
-const loading = ref<boolean>(false);
-const voteData = ref<VoteInfo[] | undefined>(undefined);
-const showDialog = ref<boolean>(false);
+const candidates = ref<Candidate[]>([])
+const selectedCandidate = ref<number | null>(null)
+const loading = ref<boolean>(false)
+const voteData = ref<VoteInfo[] | undefined>(undefined)
+const showDialog = ref<boolean>(false)
 
 async function loadCandidates() {
-  const contract = getVotingContract();
-  if (!contract) return;
+  const contract = getVotingContract()
+  if (!contract) return
 
-  const result = await contract.getCandidates();
-  console.log("result", result);
+  const result = await contract.getCandidates()
+  console.log('result', result)
 
-  candidates.value = result.map(
-    (c: { name: string; voteCount: bigint }, index: number) => ({
-      index,
-      name: c.name,
-      voteCount: c.voteCount.toString(),
-    })
-  );
+  candidates.value = result.map((c: { name: string; voteCount: bigint }, index: number) => ({
+    index,
+    name: c.name,
+    voteCount: c.voteCount.toString(),
+  }))
 }
 
 async function vote() {
-  if (selectedCandidate.value === null) return;
-  const contract = getVotingContract();
-  if (!contract) return;
+  if (selectedCandidate.value === null) return
+  const contract = getVotingContract()
+  if (!contract) return
 
-  loading.value = true;
+  loading.value = true
   try {
-    const tx = await contract.vote(selectedCandidate.value);
-    await tx.wait();
-    alert("投票成功！");
-    loadCandidates(); // 重新載入候選人數據
+    const tx = await contract.vote(selectedCandidate.value)
+    await tx.wait()
+    alert('投票成功！')
+    loadCandidates() // 重新載入候選人數據
   } catch (error) {
-    alert((error as Error).message);
+    alert((error as Error).message)
   }
-  loading.value = false;
+  loading.value = false
 }
 
 onMounted(async () => {
-  await setupWeb3();
-  await loadCandidates();
-  voteData.value = await getAllVotes();
-});
+  await setupWeb3()
+  await loadCandidates()
+  voteData.value = await getAllVotes()
+})
 </script>

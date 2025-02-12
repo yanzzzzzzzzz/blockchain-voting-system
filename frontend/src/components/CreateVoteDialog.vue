@@ -34,53 +34,48 @@
 
       <div class="p-d-flex p-jc-end">
         <Button label="Submit" icon="pi pi-check" @click="submitVote" />
-        <Button
-          label="Cancel"
-          icon="pi pi-times"
-          class="p-button-secondary"
-          @click="cancelVote"
-        />
+        <Button label="Cancel" icon="pi pi-times" class="p-button-secondary" @click="cancelVote" />
       </div>
     </div>
   </Dialog>
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits } from 'vue';
-import Button from 'primevue/button';
-import Dialog from 'primevue/dialog';
-import InputText from 'primevue/inputtext';
-import Calendar from 'primevue/calendar';
+import { ref, defineProps, defineEmits } from 'vue'
+import Button from 'primevue/button'
+import Dialog from 'primevue/dialog'
+import InputText from 'primevue/inputtext'
+import Calendar from 'primevue/calendar'
 
 defineProps({
   modelValue: {
     type: Boolean,
-    required: true
-  }
-});
+    required: true,
+  },
+})
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue'])
 
 interface VoteData {
-  title: string;
-  options: string;
-  startTime: Date | null;
-  endTime: Date | null;
+  title: string
+  options: string
+  startTime: Date | null
+  endTime: Date | null
 }
 
 const voteData = ref<VoteData>({
   title: '',
   options: '',
   startTime: null,
-  endTime: null
-});
+  endTime: null,
+})
 
 const submitVote = () => {
-  console.log('Vote Data:', voteData.value);
-  emit('update:modelValue', false);
-};
+  console.log('Vote Data:', voteData.value)
+  emit('update:modelValue', false)
+}
 
 const cancelVote = () => {
-  emit('update:modelValue', false);
-};
+  emit('update:modelValue', false)
+}
 </script>
