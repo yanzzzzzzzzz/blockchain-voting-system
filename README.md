@@ -27,7 +27,7 @@ A voting system using blockchain technology
 4. Create another terminal and go to blockchain folder, deploy the contract to the localhost network:
 
    ```sh
-   cd blockchain && npx hardhat ignition deploy ./ignition/modules/Voting.ts --network localhost
+   cd blockchain && npx hardhat ignition deploy ./ignition/modules/VotingSystem.ts --network localhost
    ```
 
 5. Save the deployed contract address.
@@ -51,7 +51,7 @@ Open another terminal and follow these steps:
 3. Fill the deployed contract address in the frontend configuration file:
 
    ```sh
-   echo '{"Voting": "YOUR_DEPLOYED_ADDRESS"}' > src/contracts/contract-address.json
+   echo '{"VotingSystem": "YOUR_DEPLOYED_ADDRESS"}' > src/contracts/contract-address.json
    ```
 
 4. Start the frontend development server:
