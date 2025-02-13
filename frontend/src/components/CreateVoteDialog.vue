@@ -46,7 +46,7 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import Calendar from 'primevue/calendar'
-import type { CreateVoteData } from '@/models/CreateVoteData'
+import type { CreateVoteData } from '@/models/createVoteData'
 defineProps({
   modelValue: {
     type: Boolean,
