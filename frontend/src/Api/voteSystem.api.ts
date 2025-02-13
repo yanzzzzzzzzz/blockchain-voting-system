@@ -1,7 +1,9 @@
 import { getVotingSystemContract } from '@/utils/web3.ts'
+import { convertBigIntTimestampToISO, convertToUnixTimestamp } from '@/utils/time.ts'
 import type { VoteInfo } from '@/models/voteInfo'
 import type { VoteView } from '@/models/voteView'
-import { convertBigIntTimestampToISO } from '@/utils/time.ts'
+import type { CreateVoteData } from '@/models/createVoteData'
+
 export async function getAllVotes() {
   const contract = getVotingSystemContract()
   if (!contract) return
@@ -45,14 +47,16 @@ export async function vote(id: number, voteOptionIndex: number) {
   const result = await contract.vote(id, voteOptionIndex)
 }
 
-export async function createVote(
-  title: string,
-  options: string[],
-  startTime: number,
-  endTime: number
-) {
+export async function createVote(createVoteData: CreateVoteData) {
   const contract = getVotingSystemContract()
   if (!contract) return
-  const result = await contract.createVote(title, options, startTime, endTime)
-  console.log('result', result)
+  if (createVoteData.startTime == null || createVoteData.endTime == null) {
+    return
+  }
+  await contract.createVote(
+    createVoteData.title,
+    createVoteData.options.split(',').map((option) => option.trim()),
+    convertToUnixTimestamp(createVoteData.startTime),
+    convertToUnixTimestamp(createVoteData.endTime)
+  )
 }
