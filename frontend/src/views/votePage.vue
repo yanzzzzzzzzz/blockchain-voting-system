@@ -37,6 +37,7 @@ onMounted(async () => {
 const processVote = async () => {
   if (selectedCandidate.value === null) return
   await vote(Number(voteId), selectedCandidate.value)
+  voteInfo.value = await getVote(Number(voteId))
 }
 </script>
 

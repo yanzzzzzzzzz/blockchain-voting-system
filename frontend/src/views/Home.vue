@@ -8,7 +8,6 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { setupWeb3 } from '@/utils/web3.ts'
 import CreateVoteDialog from '@/components/CreateVoteDialog.vue'
 import { getAllVotes } from '@/Api/voteSystem.api.ts'
 import { createVote } from '@/Api/voteSystem.api.ts'
@@ -21,11 +20,11 @@ const voteData = ref<VoteInfo[] | undefined>(undefined)
 const showDialog = ref<boolean>(false)
 
 onMounted(async () => {
-  await setupWeb3()
   voteData.value = await getAllVotes()
 })
 const processCreateVote = async (createVoteData: CreateVoteData) => {
   console.log('Create Vote Data:', createVoteData)
   await createVote(createVoteData)
+  voteData.value = await getAllVotes()
 }
 </script>
