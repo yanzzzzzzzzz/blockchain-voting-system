@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { VoteInfo } from '@/models/voteSystem'
+import type { VoteInfo } from '@/models/voteInfo'
 import { useRouter } from 'vue-router'
 import Button from 'primevue/button'
 

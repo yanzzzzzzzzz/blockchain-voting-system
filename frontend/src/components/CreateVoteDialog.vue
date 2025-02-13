@@ -46,7 +46,7 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import Calendar from 'primevue/calendar'
-
+import type { CreateVoteData } from '@/models/CreateVoteData'
 defineProps({
   modelValue: {
     type: Boolean,
@@ -54,16 +54,9 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'createVote'])
 
-interface VoteData {
-  title: string
-  options: string
-  startTime: Date | null
-  endTime: Date | null
-}
-
-const voteData = ref<VoteData>({
+const voteData = ref<CreateVoteData>({
   title: '',
   options: '',
   startTime: null,
@@ -72,6 +65,7 @@ const voteData = ref<VoteData>({
 
 const submitVote = () => {
   console.log('Vote Data:', voteData.value)
+  emit('createVote', voteData.value)
   emit('update:modelValue', false)
 }
 

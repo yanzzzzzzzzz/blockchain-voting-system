@@ -1,7 +1,7 @@
 <template>
   <h1>Voting DApp</h1>
   <Button label="Create Vote" icon="pi pi-plus" @click="showDialog = true" />
-  <CreateVoteDialog v-model="showDialog" />
+  <CreateVoteDialog v-model="showDialog" @createVote="createVote" />
   <div v-if="voteData">
     <VoteCard v-for="vote in voteData" :key="vote.id" :vote="vote" />
   </div>
@@ -14,7 +14,7 @@ import CreateVoteDialog from '@/components/CreateVoteDialog.vue'
 import { getAllVotes } from '@/Api/voteSystem.api.ts'
 import { Button } from 'primevue'
 import VoteCard from '@/components/VoteCard.vue'
-import type { VoteInfo } from '@/models/voteSystem.ts'
+import type { VoteInfo } from '@/models/voteInfo'
 
 const voteData = ref<VoteInfo[] | undefined>(undefined)
 const showDialog = ref<boolean>(false)
@@ -23,4 +23,5 @@ onMounted(async () => {
   await setupWeb3()
   voteData.value = await getAllVotes()
 })
+const createVote = () => {}
 </script>

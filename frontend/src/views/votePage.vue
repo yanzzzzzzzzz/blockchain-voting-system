@@ -4,7 +4,12 @@
     <ul>
       <li v-for="(option, index) in voteInfo?.options" :key="index" class="py-1">
         {{ option.option }} - 票數: {{ option.votes }}
-        <Button @click="selectedCandidate = index">選擇</Button>
+        <Button
+          @click="selectedCandidate = index"
+          :class="{ 'selected-button': selectedCandidate === index }"
+        >
+          選擇
+        </Button>
       </li>
     </ul>
     <Button @click="processVote" :disabled="selectedCandidate === null || loading"> 投票 </Button>
@@ -15,7 +20,7 @@
 import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { getVote, vote } from '@/Api/voteSystem.api.ts'
-import type { VoteView } from '@/models/voteSystem.ts'
+import type { VoteView } from '@/models/voteView'
 import { Button } from 'primevue'
 
 const route = useRoute()
@@ -34,3 +39,10 @@ const processVote = async () => {
   await vote(Number(voteId), selectedCandidate.value)
 }
 </script>
+
+<style scoped>
+.selected-button {
+  background-color: blue;
+  color: white;
+}
+</style>
