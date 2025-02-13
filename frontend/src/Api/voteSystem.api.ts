@@ -44,7 +44,11 @@ export async function getVote(id: number) {
 export async function vote(id: number, voteOptionIndex: number) {
   const contract = getVotingSystemContract()
   if (!contract) return
-  const result = await contract.vote(id, voteOptionIndex)
+  const tx = await contract.vote(id, voteOptionIndex)
+  console.log('start to wait for transaction to be mined')
+
+  const receipt = await tx.wait()
+  console.log('Transaction mined in block:', receipt.blockNumber)
 }
 
 export async function createVote(createVoteData: CreateVoteData) {
@@ -53,10 +57,14 @@ export async function createVote(createVoteData: CreateVoteData) {
   if (createVoteData.startTime == null || createVoteData.endTime == null) {
     return
   }
-  await contract.createVote(
+  const tx = await contract.createVote(
     createVoteData.title,
     createVoteData.options.split(',').map((option) => option.trim()),
     convertToUnixTimestamp(createVoteData.startTime),
     convertToUnixTimestamp(createVoteData.endTime)
   )
+  console.log('start to wait for transaction to be mined')
+
+  const receipt = await tx.wait()
+  console.log('Transaction mined in block:', receipt.blockNumber)
 }
