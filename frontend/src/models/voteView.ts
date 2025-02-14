@@ -8,4 +8,5 @@ export interface VoteView {
   startTime: string
   endTime: string
   exists: boolean
+  isVote: boolean
 }

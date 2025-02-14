@@ -3,4 +3,5 @@ export interface VoteInfo {
   title: string
   startTime: string
   endTime: string
+  isVote: boolean
 }

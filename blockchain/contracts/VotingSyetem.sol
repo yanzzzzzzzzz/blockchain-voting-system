@@ -22,6 +22,7 @@ contract VotingSystem {
     string title;
     uint256 startTime;
     uint256 endTime;
+    bool isVote;
   }
 
   struct VoteView {
@@ -32,6 +33,7 @@ contract VotingSystem {
     uint256 startTime;
     uint256 endTime;
     bool exists;
+    bool isVote;
   }
 
   address public owner;
@@ -76,7 +78,6 @@ contract VotingSystem {
     voteCount++;
   }
 
-  // 创建新的投票
   function createVote(
     string memory _title,
     string[] memory _options,
@@ -101,7 +102,6 @@ contract VotingSystem {
     voteCount++;
   }
 
-  // 參與投票
   function vote(uint256 _voteId, uint256 _optionIndex) public {
     require(votes[_voteId].exists, 'The vote does not exist');
     require(
@@ -123,7 +123,6 @@ contract VotingSystem {
     emit Voted(_voteId, _optionIndex, msg.sender);
   }
 
-  // 獲取所有活動中的投票
   function getAllVotes() public view returns (VoteInfo[] memory) {
     uint256 activeVoteCount = 0;
     for (uint256 i = 0; i < voteCount; i++) {
@@ -141,14 +140,14 @@ contract VotingSystem {
           i,
           votes[i].title,
           votes[i].startTime,
-          votes[i].endTime
+          votes[i].endTime,
+          votes[i].hasVoted[msg.sender]
         );
       }
     }
     return voteInfos;
   }
 
-  // 獲取某個投票的所有選項及票數
   function getVote(uint256 _voteId) public view returns (VoteView memory) {
     require(votes[_voteId].exists, 'The vote does not exist');
 
@@ -160,7 +159,8 @@ contract VotingSystem {
         createTime: votes[_voteId].createTime,
         startTime: votes[_voteId].startTime,
         endTime: votes[_voteId].endTime,
-        exists: votes[_voteId].exists
+        exists: votes[_voteId].exists,
+        isVote: votes[_voteId].hasVoted[msg.sender]
       });
   }
 }

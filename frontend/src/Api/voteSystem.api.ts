@@ -9,6 +9,8 @@ export async function getAllVotes() {
   if (!contract) return
 
   const result = await contract.getAllVotes()
+  console.log('getAllVotes', result)
+
   let votes: VoteInfo[] = []
   for (let i = 0; i < result.length; i++) {
     const vote = result[i]
@@ -17,8 +19,11 @@ export async function getAllVotes() {
       title: vote[1],
       startTime: convertBigIntTimestampToISO(vote[2]),
       endTime: convertBigIntTimestampToISO(vote[3]),
+      isVote: vote[4],
     })
   }
+  console.log('votes', votes)
+
   return votes
 }
 export async function getVote(id: number) {
@@ -37,7 +42,10 @@ export async function getVote(id: number) {
     startTime: convertBigIntTimestampToISO(result.startTime),
     endTime: convertBigIntTimestampToISO(result.endTime),
     exists: result.exists,
+    isVote: result.isVote,
   }
+  console.log('getVote', vote)
+
   return vote
 }
 
